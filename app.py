@@ -1,7 +1,7 @@
 import streamlit as st
 import base64
 
-# --- 1. FUNGSI VIGENERE CIPHER ---
+#FUNGSI VIGENERE CIPHER
 def vigenere_cipher(text, key, mode):
     res = ""
     key = key.upper()
@@ -24,10 +24,10 @@ def vigenere_cipher(text, key, mode):
             res += new_char
             ki += 1
         else:
-            res += char # Spasi dan simbol (seperti di Base64) tetap
+            res += char 
     return res
 
-# --- 2. FUNGSI AFFINE CIPHER ---
+#FUNGSI AFFINE CIPHER
 def modInverse(a, m):
     for x in range(1, m):
         if (((a % m) * (x % m)) % m == 1):
@@ -97,7 +97,7 @@ with tab2:
     mode_f = st.radio("Mode File", ["Enkripsi", "Dekripsi"], key="mode_file")
     key_f = st.text_input("Kunci Alfabet", value="buaya", key="key_file")
     
-    # Tambahan fitur untuk menamai ekstensi saat dekripsi
+    
     ext = ""
     if mode_f == "Dekripsi":
         ext = st.text_input("Ekstensi file asli setelah didekripsi (misal: .jpg, .png, .mp3)", value=".jpg")
@@ -107,15 +107,12 @@ with tab2:
     if uploaded_file is not None:
         if st.button("Proses File"):
             if mode_f == "Enkripsi":
-                # PROSES ENKRIPSI
-                # 1. Baca file biner menjadi Base64
+                
                 file_bytes = uploaded_file.read()
                 b64_string = base64.b64encode(file_bytes).decode('utf-8')
                 
-                # 2. Enkripsi teks Base64
                 hasil_f = vigenere_cipher(b64_string, key_f, mode_f)
                 
-                # 3. Download sebagai TXT
                 st.success("File berhasil dienkripsi! Silakan unduh ciphertext-nya.")
                 st.download_button(
                     label="Download Ciphertext (.txt)", 
@@ -125,18 +122,14 @@ with tab2:
                 )
                 
             elif mode_f == "Dekripsi":
-                # PROSES DEKRIPSI
+
                 try:
-                    # 1. Baca isi file .txt langsung sebagai teks (jangan di-base64-kan lagi)
                     cipher_text = uploaded_file.read().decode('utf-8')
                     
-                    # 2. Dekripsi teks kembali ke Base64 asli
                     decrypted_b64 = vigenere_cipher(cipher_text, key_f, mode_f)
                     
-                    # 3. Decode Base64 menjadi file Biner asli
                     data_asli = base64.b64decode(decrypted_b64)
                     
-                    # 4. Download file dengan ekstensi yang sesuai
                     st.success("File berhasil didekripsi! Silakan unduh file aslinya.")
                     st.download_button(
                         label=f"Download File Asli ({ext})", 
