@@ -54,11 +54,9 @@ def affine_cipher(text, a, b, mode):
             res += char
     return res
 
-# --- KONFIGURASI HALAMAN ---
 st.set_page_config(page_title="Proyek Kriptografi", layout="centered")
 st.title("🔐 Kalkulator Kriptografi Klasik")
 
-# --- UI UTAMA ---
 tab1, tab2 = st.tabs(["Input Teks", "Input File (Gambar/Audio/Video)"])
 
 with tab1:
